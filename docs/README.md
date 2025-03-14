@@ -99,7 +99,10 @@ Main error responses:
 - `src/main/java/com/example/demo/controller`: API endpoint implementations
 - `src/main/java/com/example/demo/service`: Business logic
 - `src/main/java/com/example/demo/model`: Data models
-- `src/main/java/com/example/demo/interceptor`: Authentication interceptors
+- `src/main/java/com/example/demo/security/interceptor`: Security-related interceptors
+  - API key authentication
+  - Header escaping
+- `src/main/java/com/example/demo/validation`: Validation logic
 - `src/main/java/com/example/demo/exception`: Error handling
 - `src/main/java/com/example/demo/config`: Application configuration
 

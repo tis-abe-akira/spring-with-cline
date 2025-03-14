@@ -99,7 +99,10 @@ APIは以下の形式でエラーレスポンスを返します：
 - `src/main/java/com/example/demo/controller`: APIエンドポイントの実装
 - `src/main/java/com/example/demo/service`: ビジネスロジック
 - `src/main/java/com/example/demo/model`: データモデル
-- `src/main/java/com/example/demo/interceptor`: 認証用インターセプター
+- `src/main/java/com/example/demo/security/interceptor`: セキュリティ関連のインターセプター
+  - APIキー認証
+  - ヘッダーエスケープ処理
+- `src/main/java/com/example/demo/validation`: バリデーションロジック
 - `src/main/java/com/example/demo/exception`: エラーハンドリング
 - `src/main/java/com/example/demo/config`: アプリケーション設定
 

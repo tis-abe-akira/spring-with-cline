@@ -1,6 +1,6 @@
-package com.example.demo.interceptor;
+package com.example.demo.security.interceptor;
 
-import com.example.demo.filter.HeaderValidator;
+import com.example.demo.validation.HeaderValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;

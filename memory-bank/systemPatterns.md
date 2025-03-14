@@ -9,7 +9,8 @@ The application follows a layered architecture, with distinct layers for present
 - **Models:** Represent data entities.
 - **Repositories:** Provide access to the data persistence layer.
 - **Aspects:** Implement cross-cutting concerns, such as logging.
-- **Filters:** Validate and sanitize HTTP request headers.
+- **Security:** Handle security concerns including header escaping and API key validation.
+- **Interceptors:** Process requests before they reach controllers.
 - **Validators:** Implement validation logic for different types of inputs.
 
 ## Design Patterns
@@ -64,6 +65,9 @@ The application implements an API key authentication strategy:
 - Controllers depend on Services
 - Services depend on Models and Repositories
 - Aspects intercept calls to various components
-- HandlerInterceptors handle cross-cutting concerns like authentication
+- Security Interceptors handle authentication and request sanitization
+- HandlerInterceptors process requests in a specific order:
+  1. HeaderEscapeInterceptor (all requests)
+  2. ApiKeyInterceptor (API endpoints only)
 - ControllerAdvice provides centralized exception handling
 - Validators implement reusable validation logic
