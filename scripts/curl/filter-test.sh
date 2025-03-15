@@ -58,7 +58,7 @@ curl_command="curl -X POST \"http://localhost:8080/api/items\" \\
   -H \"devicePlatform: Android\" \\
   -d '{\"name\": \"Test Item\", \"description\": \"This is a test item\"}'"
 
-run_test "x-api-keyヘッダーなし" 400 "$curl_command"
+run_test "x-api-keyヘッダーなし" 401 "$curl_command"
 
 # テスト2: 不正なx-api-keyヘッダー
 curl_command="curl -X POST \"http://localhost:8080/api/items\" \\
@@ -69,7 +69,7 @@ curl_command="curl -X POST \"http://localhost:8080/api/items\" \\
   -H \"x-api-key: invalid-api-key\" \\
   -d '{\"name\": \"Test Item\", \"description\": \"This is a test item\"}'"
 
-run_test "不正なx-api-keyヘッダー" 400 "$curl_command"
+run_test "不正なx-api-keyヘッダー" 401 "$curl_command"
 
 # テスト3: 正しいx-api-keyヘッダー
 curl_command="curl -X POST \"http://localhost:8080/api/items\" \\

@@ -75,17 +75,36 @@ OpenAPI (Swagger) documentation is available at:
 - http://localhost:8080/swagger-ui.html
 - http://localhost:8080/v3/api-docs
 
+## Error Responses
+The API returns error responses in the following format:
+
+```json
+{
+    "status": 401,
+    "message": "Missing required header: x-api-key"
+}
+```
+
+Main error responses:
+- 401 Unauthorized: Authentication error (missing or invalid API key)
+- 404 Not Found: Resource not found
+- 500 Internal Server Error: Server-side error
+
 ## Known Issues
 - API key is currently stored in plain text in `application.properties`
 - A more secure API key management solution is needed for production
-- Clients need to be updated to include the x-api-key header
+- Rate limiting might be needed for production use
 
 ## Project Structure
 - `src/main/java/com/example/demo/controller`: API endpoint implementations
 - `src/main/java/com/example/demo/service`: Business logic
 - `src/main/java/com/example/demo/model`: Data models
-- `src/main/java/com/example/demo/filter`: Security filters
-- `src/main/java/com/example/demo/exception`: Exception handling
+- `src/main/java/com/example/demo/security/interceptor`: Security-related interceptors
+  - API key authentication
+  - Header escaping
+- `src/main/java/com/example/demo/validation`: Validation logic
+- `src/main/java/com/example/demo/exception`: Error handling
+- `src/main/java/com/example/demo/config`: Application configuration
 
 ## License
 This project is released under the MIT License.

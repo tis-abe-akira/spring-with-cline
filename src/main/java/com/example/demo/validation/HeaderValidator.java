@@ -1,4 +1,4 @@
-package com.example.demo.filter;
+package com.example.demo.validation;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

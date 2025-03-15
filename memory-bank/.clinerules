@@ -1,0 +1,78 @@
+# Springアプリケーションにおける実装の指針
+
+## 1. Filter vs. Controller Advice/Interceptor
+
+### エキスパートからの指摘
+Springエキスパートから、「サーブレットフィルターよりもController Advisorを使用すべき」との指摘を受けた際の学び：
+
+#### なぜController Advisor/Interceptorが推奨されるか
+1. **Spring機能の活用**
+   - Spring MVC標準機能の利点を最大限活用できる
+   - Spring Securityとの連携が容易
+   - バージョンアップによる機能向上の恩恵を受けやすい
+
+2. **テスタビリティ**
+   - MockMvcを使用した統合テストが容易
+   - Spring Test機能との相性が良い
+   - テストコードがシンプルになる
+
+3. **実装レベル**
+   - サーブレットフィルターは低レベルすぎる
+   - Spring MVCのライフサイクルに適切に組み込める
+   - DIやAOPなどのSpring機能を活用しやすい
+
+### 実装選択の指針
+
+#### フィルターを使用すべき場合
+- リクエストの最も早い段階での処理が必要
+- Springコンテキスト外での処理が必要
+- エンコーディング変換など、低レベルな処理
+
+#### Interceptorを使用すべき場合
+- Spring MVCの機能を活用したい
+- ハンドラー実行前後の処理が必要
+- 認証・認可などのセキュリティチェック
+- リクエストのログ記録
+- パフォーマンス監視
+
+#### Controller Adviceを使用すべき場合
+- 例外ハンドリング
+- レスポンス変換
+- バリデーションエラーの処理
+
+### 実装のベストプラクティス
+1. **処理の優先順位を意識**
+   ```
+   Filter -> Interceptor -> ControllerAdvice -> Controller
+   ```
+
+2. **適切な責務の分離**
+   - Filters: 低レベルな前処理
+   - Interceptors: Spring MVCレベルの横断的関心事
+   - ControllerAdvice: 例外処理とレスポンス加工
+
+3. **Spring機能の活用**
+   - `@Order`アノテーションによる実行順序の制御
+   - DIを活用した依存関係の管理
+   - Spring Boot AutoConfigurationの活用
+
+4. **テスト容易性の確保**
+   - MockMvcを使用したテスト
+   - コンポーネントの単体テスト
+   - 統合テストの実装
+
+### メンテナンス性の向上
+1. **パッケージ構成**
+   ```
+   com.example.demo
+   ├── security
+   │   └── interceptor     # セキュリティ関連のインターセプター
+   ├── validation         # バリデーションロジック
+   ├── exception         # 例外処理（ControllerAdvice含む）
+   └── config           # アプリケーション設定
+   ```
+
+2. **命名規則**
+   - インターセプター: `〇〇Interceptor`
+   - アドバイス: `〇〇Advice`
+   - バリデーター: `〇〇Validator`

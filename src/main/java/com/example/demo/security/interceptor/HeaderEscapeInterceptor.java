@@ -1,28 +1,28 @@
-package com.example.demo.filter;
+package com.example.demo.security.interceptor;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import java.util.*;
 
 /**
- * HTTPヘッダーのエスケープ処理を行うクラス
+ * HTTPヘッダーのエスケープ処理を行うインターセプター
  */
 @Component
-public class HeaderEscaper {
-    private static final Logger logger = LoggerFactory.getLogger(HeaderEscaper.class);
+public class HeaderEscapeInterceptor implements HandlerInterceptor {
+    private static final Logger logger = LoggerFactory.getLogger(HeaderEscapeInterceptor.class);
 
-    /**
-     * ヘッダーの値をエスケープ処理する
-     *
-     * @param request HttpServletRequest
-     */
-    public HttpServletRequest wrapRequest(HttpServletRequest request) {
-        return new HeaderEscapeRequestWrapper(request);
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        HttpServletRequest wrappedRequest = new HeaderEscapeRequestWrapper(request);
+        request.setAttribute("escapedRequest", wrappedRequest);
+        return true;
     }
 
     private static class HeaderEscapeRequestWrapper extends HttpServletRequestWrapper {
